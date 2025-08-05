@@ -40,11 +40,56 @@ document.addEventListener('DOMContentLoaded', function() {
     // Initialize chatbot
     initChatbot();
     
+    // Initialize tabs
+    initTabs();
+    
     // Initialize timeline with delay to ensure DOM is ready
     setTimeout(() => {
         initTimeline();
     }, 100);
 });
+
+// Tab functionality
+function initTabs() {
+    console.log('Initializing tabs...');
+    
+    const tabButtons = document.querySelectorAll('.tab-button');
+    const tabPanes = document.querySelectorAll('.tab-pane');
+    
+    if (tabButtons.length === 0 || tabPanes.length === 0) {
+        console.log('No tabs found');
+        return;
+    }
+    
+    console.log('Found tabs:', tabButtons.length);
+    
+    tabButtons.forEach(button => {
+        button.addEventListener('click', function() {
+            const targetTab = this.getAttribute('data-tab');
+            console.log('Switching to tab:', targetTab);
+            
+            // Remove active class from all buttons and panes
+            tabButtons.forEach(btn => btn.classList.remove('active'));
+            tabPanes.forEach(pane => pane.classList.remove('active'));
+            
+            // Add active class to clicked button and corresponding pane
+            this.classList.add('active');
+            const targetPane = document.getElementById(targetTab + '-tab');
+            if (targetPane) {
+                targetPane.classList.add('active');
+            }
+            
+            // Reinitialize timeline if switching to professional tab
+            if (targetTab === 'professional') {
+                setTimeout(() => {
+                    initTimeline();
+                }, 100);
+            }
+        });
+    });
+    
+    console.log('Tabs initialized');
+}
 
 // Chatbot functionality - Simplified
 function initChatbot() {
@@ -216,7 +261,7 @@ const observer = new IntersectionObserver((entries) => {
 
 // Observe elements for animation
 document.addEventListener('DOMContentLoaded', function() {
-    const animatedElements = document.querySelectorAll('.hero-content, .hero-image, .chatbot-window, .timeline-item');
+    const animatedElements = document.querySelectorAll('.hero-content, .hero-image, .chatbot-window, .timeline-item, .content-card');
     
     console.log('Setting up animations for', animatedElements.length, 'elements');
     
