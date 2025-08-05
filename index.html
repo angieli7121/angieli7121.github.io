@@ -94,6 +94,8 @@
         <!-- Interactive Timeline -->
         <div class="timeline-container" id="timeline">
             <h2 class="timeline-title">Professional Experience</h2>
+            <!-- Test button to verify JavaScript is working -->
+            <button id="testButton" style="background: #fbbf24; color: #1f2937; padding: 10px 20px; border: none; border-radius: 8px; margin-bottom: 20px; cursor: pointer;">Test Timeline (Click Me)</button>
             <div class="timeline">
                 <div class="timeline-item" data-year="2024">
                     <div class="timeline-marker">
@@ -204,5 +206,30 @@
     </section>
 
     <script src="script.js"></script>
+    <script>
+        // Simple test to verify JavaScript is loading
+        document.addEventListener('DOMContentLoaded', function() {
+            console.log('Main script loaded successfully');
+            
+            // Test button functionality
+            const testButton = document.getElementById('testButton');
+            if (testButton) {
+                testButton.addEventListener('click', function() {
+                    alert('JavaScript is working! Timeline should be functional.');
+                    console.log('Test button clicked - JavaScript is working');
+                });
+            }
+            
+            // Force timeline initialization after a delay
+            setTimeout(() => {
+                console.log('Forcing timeline initialization...');
+                if (typeof initTimeline === 'function') {
+                    initTimeline();
+                } else {
+                    console.log('initTimeline function not found');
+                }
+            }, 500);
+        });
+    </script>
 </body>
 </html> 

@@ -40,8 +40,10 @@ document.addEventListener('DOMContentLoaded', function() {
     // Initialize chatbot
     initChatbot();
     
-    // Initialize timeline
-    initTimeline();
+    // Initialize timeline with delay to ensure DOM is ready
+    setTimeout(() => {
+        initTimeline();
+    }, 100);
 });
 
 // Chatbot functionality - Simplified
@@ -92,39 +94,77 @@ function initChatbot() {
     }
 }
 
-// Timeline functionality
+// Timeline functionality - Simplified and more robust
 function initTimeline() {
     console.log('Initializing timeline...');
-    const timelineItems = document.querySelectorAll('.timeline-item');
     
-    console.log('Found timeline items:', timelineItems.length);
+    // Try multiple selectors to find timeline items
+    let timelineItems = document.querySelectorAll('.timeline-item');
     
     if (timelineItems.length === 0) {
-        console.log('No timeline items found');
+        console.log('No .timeline-item found, trying alternative selectors...');
+        timelineItems = document.querySelectorAll('[data-year]');
+    }
+    
+    if (timelineItems.length === 0) {
+        console.log('No timeline items found with any selector');
         return;
     }
     
-    timelineItems.forEach((item, index) => {
-        console.log(`Setting up timeline item ${index + 1}`);
+    console.log('Found timeline items:', timelineItems.length);
+    
+    // Convert to array for easier manipulation
+    const itemsArray = Array.from(timelineItems);
+    
+    itemsArray.forEach((item, index) => {
+        console.log(`Setting up timeline item ${index + 1}:`, item);
         
+        // Ensure the item is clickable
+        item.style.cursor = 'pointer';
+        item.style.position = 'relative';
+        
+        // Add click event listener
         item.addEventListener('click', function(e) {
             console.log(`Timeline item ${index + 1} clicked`);
             e.preventDefault();
             e.stopPropagation();
             
+            // Find the details element within this item
+            const details = this.querySelector('.timeline-details');
+            if (!details) {
+                console.log('No details element found in item', index + 1);
+                return;
+            }
+            
             // Close all other timeline items
-            timelineItems.forEach(otherItem => {
+            itemsArray.forEach(otherItem => {
                 if (otherItem !== this) {
                     otherItem.classList.remove('active');
+                    const otherDetails = otherItem.querySelector('.timeline-details');
+                    if (otherDetails) {
+                        otherDetails.style.maxHeight = '0';
+                        otherDetails.style.opacity = '0';
+                    }
                 }
             });
             
             // Toggle current item
-            this.classList.toggle('active');
-            console.log(`Timeline item ${index + 1} active:`, this.classList.contains('active'));
+            const isActive = this.classList.contains('active');
             
-            // Smooth scroll to the item if it's not fully visible
-            if (this.classList.contains('active')) {
+            if (isActive) {
+                // Close this item
+                this.classList.remove('active');
+                details.style.maxHeight = '0';
+                details.style.opacity = '0';
+                console.log(`Timeline item ${index + 1} closed`);
+            } else {
+                // Open this item
+                this.classList.add('active');
+                details.style.maxHeight = '500px';
+                details.style.opacity = '1';
+                console.log(`Timeline item ${index + 1} opened`);
+                
+                // Scroll to item
                 setTimeout(() => {
                     this.scrollIntoView({
                         behavior: 'smooth',
@@ -134,7 +174,7 @@ function initTimeline() {
             }
         });
         
-        // Add hover effect for better UX
+        // Add hover effect
         item.addEventListener('mouseenter', function() {
             if (!this.classList.contains('active')) {
                 this.style.transform = 'scale(1.02)';
@@ -147,36 +187,12 @@ function initTimeline() {
             }
         });
         
-        // Add cursor pointer style
-        item.style.cursor = 'pointer';
-    });
-    
-    // Add keyboard navigation
-    document.addEventListener('keydown', function(e) {
-        const activeItem = document.querySelector('.timeline-item.active');
-        if (!activeItem) return;
-        
-        const timelineItems = Array.from(document.querySelectorAll('.timeline-item'));
-        const currentIndex = timelineItems.indexOf(activeItem);
-        
-        if (e.key === 'ArrowDown' || e.key === 'ArrowRight') {
-            e.preventDefault();
-            const nextItem = timelineItems[currentIndex + 1];
-            if (nextItem) {
-                activeItem.classList.remove('active');
-                nextItem.classList.add('active');
-                nextItem.scrollIntoView({ behavior: 'smooth', block: 'center' });
-            }
-        } else if (e.key === 'ArrowUp' || e.key === 'ArrowLeft') {
-            e.preventDefault();
-            const prevItem = timelineItems[currentIndex - 1];
-            if (prevItem) {
-                activeItem.classList.remove('active');
-                prevItem.classList.add('active');
-                prevItem.scrollIntoView({ behavior: 'smooth', block: 'center' });
-            }
-        } else if (e.key === 'Escape') {
-            activeItem.classList.remove('active');
+        // Initialize details as hidden
+        const details = item.querySelector('.timeline-details');
+        if (details) {
+            details.style.maxHeight = '0';
+            details.style.opacity = '0';
+            details.style.transition = 'max-height 0.5s ease, opacity 0.5s ease';
         }
     });
     
