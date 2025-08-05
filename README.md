@@ -15,7 +15,7 @@ A modern, responsive personal website showcasing Angie Li's portfolio, skills, a
 
 ## 🚀 Live Demo
 
-Visit the website at: [https://angieli.github.io](https://angieli7121.github.io)
+Visit the website at: [https://angieli7121.github.io](https://angieli7121.github.io)
 
 ## 📁 File Structure
 
