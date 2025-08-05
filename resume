@@ -1,0 +1,69 @@
+Line 4, ShapeSummary  
+
+Experienced data scientist with 9 years of experience across consumer tech and content platforms. Skilled in designing and deploying machine learning models and driving product strategy through experimentation, KPI analysis, and stakeholder alignment. Proven track record in personalization, ranking, segmentation, and forecasting using Python, SQL, Spark, and AWS. Adept at translating insights into scalable product features and business wins. 
+
+ 
+
+Line 6, ShapeProfessional Experience  
+
+Sr Data Scientist, Amazon Music, Culver City, CA                                                                                   Nov 2023 – Dec 2024 
+
+Led the implementation and experimentation for enhancing genre tagging in Amazon Music "My Mixes" playlists, improving engagement through localized taxonomy. 
+
+Partnered with Catalog and Personalization teams to prioritize high-impact genre updates based on user behavior and listening patterns.  
+
+Improved "Play Music" playlist ranking by developing and deploying new features, resulting in +0.31% listening duration. 
+
+Identified low-cohesion tracks using embedding similarity and playback data, improving playlist quality and retention. 
+
+ 
+
+Data Scientist, Amazon Music, Culver City, CA                                                                                         Jun 2022 – Nov 2023 
+
+Built and evaluated ML models (multi-armed bandit, clustering, KNN) for podcast content ranking using text, audio, and behavioral data. 
+
+Productionized 25 features across consumption and metadata, boosting playback metrics: +2.3% playback seconds (“Exclusive Podcasts”), +0.35% playback count (“Jump Back In”), and +0.51% (“Ad-Free Podcasts”). 
+
+Diagnosed and fixed feature collinearity in live ranking models, improving stability and relevance.  
+
+Designed and analyzed A/B tests for podcast ranking experiments, shaping roadmap and feature prioritization for personalization experiences. 
+
+ 
+
+Data Scientist, IMDb, Santa Monica, CA                                                                                                    Jun 2020 – June 2022 
+
+Owned end-to-end ML lifecycle for a clustering-based customer segmentation model—built data pipelines, engineered features, and deployed to production—boosting free trial-to-paid conversions and surfacing marketing and product opportunities. 
+
+Led experiment analysis for new ingress points, product promotions, and signup funnel changes—driving a 9.2% YoY increase in membership restarts.  
+
+Created executive dashboards to monitor CTR, signups, conversions, and restarts, enabling rapid diagnosis of performance shifts.  
+
+Collaborated with engineering to instrumentation and launched internal test phases to ensure data quality before experimentation. 
+
+ 
+
+Data Scientist, LendingClub, San Francisco, CA                                                                                      Nov 2018 – May 2020 
+
+Developed and deployed an inbound call forecast model, reducing daily forecast error from 11% to 3% and extending the forecast horizon to 120 days, saving $2M annually without sacrificing service quality.  
+
+Built automated ETL pipelines and Tableau dashboards to surface performance insights, delivering $150K in annual operational savings. 
+
+Measured and optimized marketing and operations performance through multi-touch attribution, uplift modeling, and call center analytics. 
+
+ 
+
+Supply Chain Analyst, Astreya Partners, Client: Google, Inc., Mountain View, CA                              June 2014 – Jul 2017 
+
+Estimated datacenter part demand/supply through reliability analysis to ensure uptime.  
+
+Built KPI dashboards and automated SQL pipelines, boosting forecast productivity by 83% and informing new tooling decisions. 
+
+ 
+
+Line 6, ShapeEducation 	 
+
+M.S. Business Analytics, UC Davis                                                                                                                            2017 – 2018 
+
+ 
+
+B.S. Information Systems, San Francisco State University                                                                                       2011- 2014 

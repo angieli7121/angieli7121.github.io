@@ -31,6 +31,9 @@ document.addEventListener('DOMContentLoaded', function() {
 
     // Initialize chatbot
     initChatbot();
+    
+    // Initialize timeline
+    initTimeline();
 });
 
 // Chatbot functionality - Simplified
@@ -73,6 +76,77 @@ function initChatbot() {
     }
 }
 
+// Timeline functionality
+function initTimeline() {
+    const timelineItems = document.querySelectorAll('.timeline-item');
+    
+    timelineItems.forEach(item => {
+        item.addEventListener('click', function() {
+            // Close all other timeline items
+            timelineItems.forEach(otherItem => {
+                if (otherItem !== this) {
+                    otherItem.classList.remove('active');
+                }
+            });
+            
+            // Toggle current item
+            this.classList.toggle('active');
+            
+            // Smooth scroll to the item if it's not fully visible
+            if (this.classList.contains('active')) {
+                setTimeout(() => {
+                    this.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'center'
+                    });
+                }, 300);
+            }
+        });
+        
+        // Add hover effect for better UX
+        item.addEventListener('mouseenter', function() {
+            if (!this.classList.contains('active')) {
+                this.style.transform = 'scale(1.02)';
+            }
+        });
+        
+        item.addEventListener('mouseleave', function() {
+            if (!this.classList.contains('active')) {
+                this.style.transform = 'scale(1)';
+            }
+        });
+    });
+    
+    // Add keyboard navigation
+    document.addEventListener('keydown', function(e) {
+        const activeItem = document.querySelector('.timeline-item.active');
+        if (!activeItem) return;
+        
+        const timelineItems = Array.from(document.querySelectorAll('.timeline-item'));
+        const currentIndex = timelineItems.indexOf(activeItem);
+        
+        if (e.key === 'ArrowDown' || e.key === 'ArrowRight') {
+            e.preventDefault();
+            const nextItem = timelineItems[currentIndex + 1];
+            if (nextItem) {
+                activeItem.classList.remove('active');
+                nextItem.classList.add('active');
+                nextItem.scrollIntoView({ behavior: 'smooth', block: 'center' });
+            }
+        } else if (e.key === 'ArrowUp' || e.key === 'ArrowLeft') {
+            e.preventDefault();
+            const prevItem = timelineItems[currentIndex - 1];
+            if (prevItem) {
+                activeItem.classList.remove('active');
+                prevItem.classList.add('active');
+                prevItem.scrollIntoView({ behavior: 'smooth', block: 'center' });
+            }
+        } else if (e.key === 'Escape') {
+            activeItem.classList.remove('active');
+        }
+    });
+}
+
 // Intersection Observer for animations
 const observerOptions = {
     threshold: 0.1,
@@ -90,7 +164,7 @@ const observer = new IntersectionObserver((entries) => {
 
 // Observe elements for animation
 document.addEventListener('DOMContentLoaded', function() {
-    const animatedElements = document.querySelectorAll('.hero-content, .hero-image, .chatbot-window');
+    const animatedElements = document.querySelectorAll('.hero-content, .hero-image, .chatbot-window, .timeline-item');
     
     animatedElements.forEach(el => {
         el.style.opacity = '0';
@@ -123,4 +197,19 @@ document.addEventListener('DOMContentLoaded', function() {
             }, 150);
         });
     });
+    
+    // Add smooth scrolling for timeline button
+    const timelineButton = document.querySelector('a[href="#timeline"]');
+    if (timelineButton) {
+        timelineButton.addEventListener('click', function(e) {
+            e.preventDefault();
+            const timeline = document.getElementById('timeline');
+            if (timeline) {
+                timeline.scrollIntoView({
+                    behavior: 'smooth',
+                    block: 'start'
+                });
+            }
+        });
+    }
 }); 
