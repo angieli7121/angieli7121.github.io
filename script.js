@@ -205,7 +205,7 @@ function initTimeline() {
             } else {
                 // Open this item
                 this.classList.add('active');
-                details.style.maxHeight = '500px';
+                details.style.maxHeight = '1000px';
                 details.style.opacity = '1';
                 console.log(`Timeline item ${index + 1} opened`);
                 
