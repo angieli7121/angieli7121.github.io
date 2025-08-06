@@ -37,8 +37,7 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     });
 
-    // Initialize chatbot
-    initChatbot();
+    // Chatbot is now handled by Gradio web component
     
     // Initialize tabs
     initTabs();
@@ -91,53 +90,7 @@ function initTabs() {
     console.log('Tabs initialized');
 }
 
-// Chatbot functionality - Simplified
-function initChatbot() {
-    console.log('Initializing chatbot...');
-    const chatbotInput = document.getElementById('chatbotInput');
-    const chatbotSend = document.getElementById('chatbotSend');
-
-    if (!chatbotInput || !chatbotSend) {
-        console.log('Chatbot elements not found');
-        return;
-    }
-
-    // Simple message handling
-    function sendMessage() {
-        const message = chatbotInput.value.trim();
-        if (!message) return;
-
-        // Add user message
-        addMessage(message, 'user');
-        chatbotInput.value = '';
-
-        // Simple response
-        setTimeout(() => {
-            addMessage('Thanks for your message! I\'ll get back to you soon.', 'bot');
-        }, 1000);
-    }
-
-    // Send message on button click or Enter key
-    chatbotSend.addEventListener('click', sendMessage);
-    chatbotInput.addEventListener('keypress', (e) => {
-        if (e.key === 'Enter') {
-            sendMessage();
-        }
-    });
-
-    // Add message to chat
-    function addMessage(text, sender) {
-        const messageDiv = document.createElement('div');
-        messageDiv.className = `message ${sender}-message`;
-        messageDiv.innerHTML = `<div class="message-content">${text}</div>`;
-        
-        const chatbotMessages = document.getElementById('chatbotMessages');
-        if (chatbotMessages) {
-            chatbotMessages.appendChild(messageDiv);
-            chatbotMessages.scrollTop = chatbotMessages.scrollHeight;
-        }
-    }
-}
+// Chatbot is now handled by Gradio web component
 
 // Timeline functionality - Simplified and more robust
 function initTimeline() {
