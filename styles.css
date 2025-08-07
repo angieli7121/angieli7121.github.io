@@ -71,6 +71,13 @@ body::before {
     position: relative;
 }
 
+.title-suffix {
+    font-size: 1rem;
+    font-weight: 400;
+    opacity: 0.7;
+    margin-left: 2px;
+}
+
 .nav-logo a::after {
     content: '';
     position: absolute;
@@ -403,6 +410,58 @@ body::before {
 
 /* .chatbot-window styles removed - using native Gradio styling */
 
+/* Email Tooltip Styles */
+.email-tooltip {
+    position: fixed;
+    z-index: 10000;
+    opacity: 0;
+    transform: translateX(-50%) translateY(-10px);
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    pointer-events: none;
+}
+
+.email-tooltip.show {
+    opacity: 1;
+    transform: translateX(-50%) translateY(0);
+}
+
+.tooltip-content {
+    background: #1e3a8a;
+    color: white;
+    padding: 0.75rem 1rem;
+    border-radius: 8px;
+    box-shadow: 0 4px 16px rgba(30, 58, 138, 0.3);
+    position: relative;
+    text-align: center;
+    min-width: 200px;
+}
+
+.tooltip-content::before {
+    content: '';
+    position: absolute;
+    top: -5px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 0;
+    height: 0;
+    border-left: 6px solid transparent;
+    border-right: 6px solid transparent;
+    border-bottom: 6px solid #1e3a8a;
+}
+
+.email-text {
+    font-size: 0.9rem;
+    font-weight: 500;
+    margin-bottom: 0.25rem;
+    font-family: 'Quicksand', sans-serif;
+}
+
+.copied-text {
+    font-size: 0.8rem;
+    opacity: 0.8;
+    font-family: 'Quicksand', sans-serif;
+}
+
 .chatbot-header {
     background: linear-gradient(135deg, rgba(59, 130, 246, 0.05) 0%, rgba(147, 197, 253, 0.05) 100%);
     color: #1e3a8a;
@@ -627,15 +686,7 @@ body::before {
 }
 
 .timeline::after {
-    content: '';
-    position: absolute;
-    left: 50%;
-    bottom: -8px;
-    transform: translateX(-50%);
-    width: 4px;
-    height: 4px;
-    background: #10b981;
-    border-radius: 50%;
+    display: none;
 }
 
 .timeline-item {

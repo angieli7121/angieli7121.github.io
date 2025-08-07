@@ -23,6 +23,9 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     });
 
+    // Custom navigation functionality
+    initCustomNavigation();
+
     // Navbar background on scroll
     window.addEventListener('scroll', function() {
         const navbar = document.querySelector('.navbar');
@@ -92,9 +95,12 @@ function initTabs() {
 
 // Chatbot is now handled by Gradio web component
 
-// Timeline functionality - Simplified and more robust
+// Timeline functionality - Fixed to handle tab switching
 function initTimeline() {
     console.log('Initializing timeline...');
+    
+    // Clear any existing timeline event listeners
+    clearTimelineListeners();
     
     // Try multiple selectors to find timeline items
     let timelineItems = document.querySelectorAll('.timeline-item');
@@ -121,8 +127,8 @@ function initTimeline() {
         item.style.cursor = 'pointer';
         item.style.position = 'relative';
         
-        // Add click event listener
-        item.addEventListener('click', function(e) {
+        // Create a click handler function that we can reference
+        const clickHandler = function(e) {
             console.log(`Timeline item ${index + 1} clicked`);
             e.preventDefault();
             e.stopPropagation();
@@ -134,8 +140,11 @@ function initTimeline() {
                 return;
             }
             
+            // Get fresh list of all timeline items
+            const currentItems = document.querySelectorAll('.timeline-item');
+            
             // Close all other timeline items
-            itemsArray.forEach(otherItem => {
+            currentItems.forEach(otherItem => {
                 if (otherItem !== this) {
                     otherItem.classList.remove('active');
                     const otherDetails = otherItem.querySelector('.timeline-details');
@@ -170,20 +179,34 @@ function initTimeline() {
                     });
                 }, 300);
             }
-        });
+        };
         
-        // Add hover effect
-        item.addEventListener('mouseenter', function() {
+        // Store the handler for later removal
+        item._timelineClickHandler = clickHandler;
+        
+        // Add click event listener
+        item.addEventListener('click', clickHandler);
+        
+        // Create hover handlers
+        const mouseEnterHandler = function() {
             if (!this.classList.contains('active')) {
                 this.style.transform = 'scale(1.02)';
             }
-        });
+        };
         
-        item.addEventListener('mouseleave', function() {
+        const mouseLeaveHandler = function() {
             if (!this.classList.contains('active')) {
                 this.style.transform = 'scale(1)';
             }
-        });
+        };
+        
+        // Store handlers for later removal
+        item._timelineMouseEnterHandler = mouseEnterHandler;
+        item._timelineMouseLeaveHandler = mouseLeaveHandler;
+        
+        // Add hover effects
+        item.addEventListener('mouseenter', mouseEnterHandler);
+        item.addEventListener('mouseleave', mouseLeaveHandler);
         
         // Initialize details as hidden
         const details = item.querySelector('.timeline-details');
@@ -195,6 +218,22 @@ function initTimeline() {
     });
     
     console.log('Timeline initialization complete');
+}
+
+// Function to clear existing timeline event listeners
+function clearTimelineListeners() {
+    const timelineItems = document.querySelectorAll('.timeline-item');
+    timelineItems.forEach(item => {
+        if (item._timelineClickHandler) {
+            item.removeEventListener('click', item._timelineClickHandler);
+        }
+        if (item._timelineMouseEnterHandler) {
+            item.removeEventListener('mouseenter', item._timelineMouseEnterHandler);
+        }
+        if (item._timelineMouseLeaveHandler) {
+            item.removeEventListener('mouseleave', item._timelineMouseLeaveHandler);
+        }
+    });
 }
 
 // Intersection Observer for animations
@@ -266,4 +305,118 @@ document.addEventListener('DOMContentLoaded', function() {
     }
     
     console.log('All interactive features initialized');
-}); 
+});
+
+// Custom navigation functionality
+function initCustomNavigation() {
+    // Home link - scroll to top
+    const homeLink = document.getElementById('home-link');
+    if (homeLink) {
+        homeLink.addEventListener('click', function(e) {
+            e.preventDefault();
+            window.scrollTo({
+                top: 0,
+                behavior: 'smooth'
+            });
+        });
+    }
+
+    // Projects link - scroll to Experience & Expertise section
+    const projectsLink = document.getElementById('projects-link');
+    if (projectsLink) {
+        projectsLink.addEventListener('click', function(e) {
+            e.preventDefault();
+            const timelineSection = document.getElementById('timeline');
+            if (timelineSection) {
+                timelineSection.scrollIntoView({
+                    behavior: 'smooth',
+                    block: 'start'
+                });
+            }
+        });
+    }
+
+    // Contact link - show email tooltip and copy to clipboard
+    const contactLink = document.getElementById('contact-link');
+    if (contactLink) {
+        contactLink.addEventListener('click', function(e) {
+            e.preventDefault();
+            
+            const email = 'yajieli912@gmail.com';
+            
+            // Copy to clipboard
+            navigator.clipboard.writeText(email).then(() => {
+                // Show tooltip
+                showEmailTooltip(this, email);
+            }).catch(() => {
+                // Fallback for older browsers
+                fallbackCopyToClipboard(email);
+                showEmailTooltip(this, email);
+            });
+        });
+    }
+}
+
+// Show email tooltip
+function showEmailTooltip(element, email) {
+    // Remove any existing tooltip
+    const existingTooltip = document.querySelector('.email-tooltip');
+    if (existingTooltip) {
+        existingTooltip.remove();
+    }
+
+    // Create tooltip
+    const tooltip = document.createElement('div');
+    tooltip.className = 'email-tooltip';
+    tooltip.innerHTML = `
+        <div class="tooltip-content">
+            <div class="email-text">${email}</div>
+            <div class="copied-text">Copied to clipboard!</div>
+        </div>
+    `;
+
+    // Add to DOM
+    document.body.appendChild(tooltip);
+
+    // Position tooltip
+    const rect = element.getBoundingClientRect();
+    tooltip.style.position = 'fixed';
+    tooltip.style.top = (rect.bottom + 10) + 'px';
+    tooltip.style.left = (rect.left + rect.width / 2) + 'px';
+    tooltip.style.transform = 'translateX(-50%)';
+
+    // Show tooltip
+    setTimeout(() => {
+        tooltip.classList.add('show');
+    }, 10);
+
+    // Hide tooltip after 3 seconds
+    setTimeout(() => {
+        tooltip.classList.remove('show');
+        setTimeout(() => {
+            if (tooltip.parentNode) {
+                tooltip.parentNode.removeChild(tooltip);
+            }
+        }, 300);
+    }, 3000);
+}
+
+// Fallback copy function for older browsers
+function fallbackCopyToClipboard(text) {
+    const textArea = document.createElement('textarea');
+    textArea.value = text;
+    textArea.style.position = 'fixed';
+    textArea.style.left = '-999999px';
+    textArea.style.top = '-999999px';
+    document.body.appendChild(textArea);
+    textArea.focus();
+    textArea.select();
+    
+    try {
+        document.execCommand('copy');
+    } catch (err) {
+        console.error('Fallback copy failed:', err);
+    }
+    
+    document.body.removeChild(textArea);
+} 
