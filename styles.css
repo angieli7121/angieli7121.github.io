@@ -275,6 +275,17 @@ body::before {
     margin-bottom: 0;
 }
 
+.highlight-line {
+    font-weight: 700;
+    background-color: #fef08a;
+    padding: 0.2rem 0.4rem;
+    border-radius: 4px;
+}
+
+.bold-text {
+    font-weight: 700;
+}
+
 .hero-buttons {
     display: flex;
     gap: 1rem;
@@ -359,9 +370,24 @@ body::before {
 }
 
 .profile-avatar {
-    font-size: 2.5rem;
+    width: 80px;
+    height: 80px;
+    border-radius: 50%;
     margin-bottom: 0.8rem;
-    color: #fbbf24;
+    position: relative;
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.profile-image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: 50%;
+    border: 3px solid #ffffff;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
 }
 
 .profile-info h3 {
@@ -378,13 +404,19 @@ body::before {
 
 .social-links {
     display: flex;
-    justify-content: center;
-    gap: 0.8rem;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.social-links a[href*="huggingface"] {
+    display: inline-block;
+    width: auto;
 }
 
 .social-links a {
     color: #6b7280;
-    font-size: 1rem;
+    font-size: 0.8rem;
     transition: all 0.3s ease;
 }
 
