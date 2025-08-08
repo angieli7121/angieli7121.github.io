@@ -25,6 +25,9 @@ document.addEventListener('DOMContentLoaded', function() {
 
     // Custom navigation functionality
     initCustomNavigation();
+    
+    // Timeline controls functionality
+    initTimelineControls();
 
     // Navbar background on scroll
     window.addEventListener('scroll', function() {
@@ -208,17 +211,29 @@ function initTimeline() {
         item.addEventListener('mouseenter', mouseEnterHandler);
         item.addEventListener('mouseleave', mouseLeaveHandler);
         
-        // Initialize details as hidden
-        const details = item.querySelector('.timeline-details');
-        if (details) {
-            details.style.maxHeight = '0';
-            details.style.opacity = '0';
-            details.style.transition = 'max-height 0.5s ease, opacity 0.5s ease';
-        }
-    });
-    
-    console.log('Timeline initialization complete');
-}
+                   // Initialize details as hidden
+           const details = item.querySelector('.timeline-details');
+           if (details) {
+               details.style.maxHeight = '0';
+               details.style.opacity = '0';
+               details.style.transition = 'max-height 0.5s ease, opacity 0.5s ease';
+           }
+       });
+       
+       // Auto-expand the first timeline item
+       if (itemsArray.length > 0) {
+           const firstItem = itemsArray[0];
+           const firstDetails = firstItem.querySelector('.timeline-details');
+           if (firstDetails) {
+               firstItem.classList.add('active');
+               firstDetails.style.maxHeight = '1000px';
+               firstDetails.style.opacity = '1';
+               console.log('Auto-expanded first timeline item');
+           }
+       }
+       
+       console.log('Timeline initialization complete');
+   }
 
 // Function to clear existing timeline event listeners
 function clearTimelineListeners() {
@@ -419,4 +434,47 @@ function fallbackCopyToClipboard(text) {
     }
     
     document.body.removeChild(textArea);
+}
+
+// Timeline controls functionality
+function initTimelineControls() {
+    const toggleBtn = document.getElementById('toggleAllBtn');
+    if (!toggleBtn) return;
+
+    // Track state on the button element
+    toggleBtn._expanded = false;
+
+    toggleBtn.addEventListener('click', function() {
+        const timelineItems = document.querySelectorAll('.timeline-item');
+        const expanding = !this._expanded;
+
+        timelineItems.forEach(item => {
+            const details = item.querySelector('.timeline-details');
+            if (!details) return;
+            if (expanding) {
+                item.classList.add('active');
+                details.style.maxHeight = '1000px';
+                details.style.opacity = '1';
+            } else {
+                item.classList.remove('active');
+                details.style.maxHeight = '0';
+                details.style.opacity = '0';
+            }
+        });
+
+        // Update state, label and icon
+        this._expanded = expanding;
+        const icon = this.querySelector('i');
+        if (expanding) {
+            this.innerHTML = '';
+            this.appendChild(icon);
+            icon.className = 'fas fa-compress-alt';
+            this.appendChild(document.createTextNode(' Collapse All'));
+        } else {
+            this.innerHTML = '';
+            this.appendChild(icon);
+            icon.className = 'fas fa-expand-alt';
+            this.appendChild(document.createTextNode(' Expand All'));
+        }
+    });
 } 
