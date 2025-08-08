@@ -873,7 +873,7 @@ body::before {
 .timeline-summary {
     color: #1e40af;
     font-size: 0.8rem;
-    font-weight: 500;
+    font-weight: 700;
     margin-top: 0.3rem;
     opacity: 0.8;
 }
@@ -1671,6 +1671,37 @@ html {
     border-bottom: none;
 }
 
+/* Readability: larger timeline card content */
+.timeline-header h3 {
+  font-size: 1.35rem;
+}
+.timeline-header .company {
+  font-size: 1.05rem;
+}
+.timeline-header .duration {
+  font-size: 0.95rem;
+}
+
+.timeline-summary {
+  font-size: 0.95rem;
+  opacity: 0.95;
+  font-weight: 700;
+}
+.timeline-summary li { margin-bottom: 0.35rem; }
+
+.timeline-details li {
+  font-size: 1rem;
+  line-height: 1.6;
+  margin-bottom: 0.5rem;
+}
+
+@media (max-width: 768px) {
+  .timeline-header h3 { font-size: 1.25rem; }
+  .timeline-header .company { font-size: 1rem; }
+  .timeline-summary { font-size: 0.95rem; font-weight: 700; }
+  .timeline-details li { font-size: 0.95rem; }
+}
+
 /* Responsive Design for Timeline */
 @media (max-width: 768px) {
     .timeline::before {
@@ -1840,4 +1871,84 @@ html {
     color: white;
     transform: translateY(-1px);
     box-shadow: 0 2px 8px rgba(59, 130, 246, 0.3);
+} 
+
+/* Strong full-width overrides on small screens */
+@media (max-width: 768px) {
+  .chatbot-container,
+  .timeline-container {
+    max-width: 100% !important;
+    width: 100% !important;
+    margin-left: 0 !important;
+    margin-right: 0 !important;
+    padding-left: 8px !important;
+    padding-right: 8px !important;
+  }
+
+  /* Ensure embedded app fills container */
+  .chatbot-container gradio-app,
+  .chatbot-container gradio-app iframe {
+    width: 100% !important;
+    max-width: 100% !important;
+  }
+} 
+
+/* Mobile layout fixes: full-width sections and alternating timeline */
+@media (max-width: 768px) {
+  /* Sections scale to screen */
+  .intro-container,
+  .chatbot-container,
+  .timeline-container {
+    max-width: 100% !important;
+    width: 100% !important;
+    padding-left: 12px !important;
+    padding-right: 12px !important;
+    margin-left: 0 !important;
+    margin-right: 0 !important;
+  }
+
+  /* Keep timeline centered and alternating on both sides */
+  .timeline::before,
+  .timeline-marker {
+    left: 50% !important;
+    transform: translateX(-50%) !important;
+  }
+
+  .timeline-content {
+    width: 80% !important; /* larger cards for readability */
+  }
+
+  .timeline-item:nth-child(odd) .timeline-content {
+    margin-left: 0 !important;
+    margin-right: 22% !important; /* leave space for center line */
+    text-align: left;
+  }
+
+  .timeline-item:nth-child(even) .timeline-content {
+    margin-left: 22% !important;
+    margin-right: 0 !important;
+    text-align: left;
+  }
+} 
+
+/* Mobile fixes: allow wrapping and prevent overlap */
+@media (max-width: 768px) {
+  .hero-tagline p {
+    white-space: normal !important;
+    overflow: visible !important;
+    text-overflow: clip !important;
+  }
+  .intro-line {
+    white-space: normal !important;
+    overflow: visible !important;
+    text-overflow: clip !important;
+  }
+
+  /* Prevent timeline overlap on mobile: stack cleanly */
+  .timeline-item {
+    margin-top: 0 !important;
+    margin-bottom: 1.25rem !important;
+  }
+  .timeline-marker { top: 0 !important; }
+  .timeline-content { margin-top: 0 !important; }
 } 
